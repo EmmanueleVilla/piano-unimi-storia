@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compilatore Piano di Studi — Corso di Laurea in Storia (L-42)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/responsive.css" />
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Header & Sticky Summary Banner -->
+    <header class="app-header" id="app-header">
+      <div class="header-content">
+        <div class="header-titles">
+          <span class="university-badge">Università degli Studi</span>
+          <h1 data-testid="header-degree-title" id="degree-title">Piano di Studi - Laurea in Storia (L-42)</h1>
+          <p class="header-subtitle">Anno Accademico 2025/2026 — Compilazione guidata con validazione in tempo reale</p>
+        </div>
+
+        <div class="header-actions">
+          <button type="button" id="btn-reset-plan" data-testid="btn-reset-plan" class="btn btn-secondary btn-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            Reimposta Piano
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-content">
+      <!-- Left Column: Form & Curriculum Tables -->
+      <div class="curriculum-container">
+        <!-- Year 3 Track Selection Card -->
+        <section class="card track-selection-card">
+          <div class="card-header">
+            <h2>3° Anno — Scelta del Percorso ("Curriculum")</h2>
+            <p>Seleziona la tua specializzazione per il terzo anno per caricare le relative tabelle d'insegnamento.</p>
+          </div>
+          <div class="track-options-grid" id="track-options-container">
+            <!-- Track options populated dynamically -->
+          </div>
+        </section>
+
+        <!-- Dynamic Form Sections -->
+        <form id="study-plan-form" onsubmit="event.preventDefault();">
+          <!-- Year 2 Section -->
+          <div class="year-section">
+            <div class="year-header">
+              <span class="year-badge">2° Anno</span>
+              <h2>Attività Formative del Secondo Anno</h2>
+            </div>
+            <div id="year2-tables-container" class="tables-grid"></div>
+          </div>
+
+          <!-- Year 3 Section -->
+          <div class="year-section" id="year3-section">
+            <div class="year-header">
+              <span class="year-badge">3° Anno</span>
+              <h2>Attività Formative del Terzo Anno</h2>
+            </div>
+            <div id="year3-tables-container" class="tables-grid"></div>
+          </div>
+
+          <!-- Group K Section (Scelta libera + Attività Obbligatorie) -->
+          <div class="year-section" id="groupk-section">
+            <div class="year-header">
+              <span class="year-badge">Gruppo K</span>
+              <h2>Altre Attività Formative Obbligatorie e Scelta Libera</h2>
+            </div>
+            <div id="groupk-tables-container" class="tables-grid"></div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Sticky Error Drawer & Guidance Panel -->
+      <aside class="sidebar-container" id="sidebar-container">
+        <div id="validation-drawer" class="validation-drawer card" data-testid="validation-drawer">
+          <div class="drawer-header">
+            <h3>Stato di Validazione</h3>
+            <span id="drawer-status-badge" class="status-pill status-invalid">Non Valido</span>
+          </div>
+          <div class="drawer-body">
+            <div id="validation-error-list" data-testid="error-list" class="error-list">
+              <!-- Validation errors populated dynamically -->
+            </div>
+          </div>
+        </div>
+    </main>
+
+    <!-- Footer with Guide Link -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <p>Compilatore Piano di Studi — Laurea in Storia (L-42)</p>
+        <a href="./README.md" target="_blank" rel="noopener" class="footer-link">📖 Guida all'uso & Istruzioni</a>
+      </div>
+    </footer>
+
+    <!-- Modal Dialog for Reset Confirmation -->
+    <dialog id="reset-modal" class="modal-dialog">
+      <div class="modal-content">
+        <h3>Conferma Reimpostazione</h3>
+        <p>Sei sicuro di voler cancellare tutte le scelte effettuate e ripristinare il piano di studi iniziale?</p>
+        <div class="modal-actions">
+          <button type="button" id="modal-cancel-btn" class="btn btn-secondary">Annulla</button>
+          <button type="button" id="modal-confirm-btn" class="btn btn-danger">Reimposta Tutto</button>
+        </div>
+      </div>
+    </dialog>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

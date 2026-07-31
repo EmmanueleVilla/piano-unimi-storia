@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CurriculumConfig",
+  "type": "object",
+  "required": ["degreeId", "degreeTitle", "academicYear", "totalRequiredCFU", "tables"],
+  "properties": {
+    "degreeId": { "type": "string" },
+    "degreeTitle": { "type": "string" },
+    "academicYear": { "type": "string" },
+    "totalRequiredCFU": { "type": "integer", "minimum": 1 },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "minCFU", "maxCFU", "isMandatory", "exams"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "minCFU": { "type": "integer", "minimum": 0 },
+          "maxCFU": { "type": "integer", "minimum": 0 },
+          "isMandatory": { "type": "boolean" },
+          "exams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["code", "title", "cfu"],
+              "properties": {
+                "code": { "type": "string" },
+                "title": { "type": "string" },
+                "cfu": { "type": "integer", "minimum": 1 },
+                "ssd": { "type": "string" },
+                "period": { "type": "string" },
+                "isCompulsory": { "type": "boolean" }
+              }
+            }
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "examCodes", "message"],
+              "properties": {
+                "type": { "type": "string", "enum": ["MUTUALLY_EXCLUSIVE", "PREREQUISITE", "REQUIRED_GROUP"] },
+                "examCodes": { "type": "array", "items": { "type": "string" } },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
