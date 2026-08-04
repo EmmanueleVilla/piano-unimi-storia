@@ -9,17 +9,37 @@ class StudyPlanStore extends EventTarget {
       freeChoiceOption: 'two-6cfu', // 'two-6cfu' | 'one-9cfu-lab3'
       selectedExams: {} // { tableId: ['code1', 'code2'] }
     };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('hashchange', () => {
+        this.syncFromHash();
+      });
+    }
+  }
+
+  syncFromHash() {
+    if (typeof window === 'undefined' || !window.location.hash) return;
+    const fromHash = persistence.decodeStateFromHash(window.location.hash);
+    if (fromHash) {
+      this.state.trackId = fromHash.trackId || 'antica';
+      this.state.freeChoiceOption = fromHash.freeChoiceOption || 'two-6cfu';
+      this.state.selectedExams = fromHash.selectedExams || {};
+      persistence.savePlan(this.state);
+      this.notifyStateChanged();
+    }
   }
 
   init(degreeConfig) {
     this.state.degreeConfig = degreeConfig;
 
-    // Restore from LocalStorage if available
+    // Restore from Hash or LocalStorage if available
     const saved = persistence.loadPlan();
     if (saved) {
       this.state.trackId = saved.trackId || 'antica';
       this.state.freeChoiceOption = saved.freeChoiceOption || 'two-6cfu';
       this.state.selectedExams = saved.selectedExams || {};
+      // Ensure URL hash is in sync with loaded state
+      persistence.savePlan(this.state);
     } else {
       this.state.trackId = 'antica';
       this.state.freeChoiceOption = 'two-6cfu';

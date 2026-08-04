@@ -47,6 +47,31 @@ export function renderErrorDrawer(validationReport) {
   `).join('');
 }
 
+export function showToastNotification(message, duration = 3000) {
+  let toast = document.getElementById('toast-notification');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast-notification';
+    toast.className = 'toast-notification';
+    document.body.appendChild(toast);
+  }
+
+  toast.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <span>${escapeHTML(message)}</span>
+  `;
+
+  toast.style.display = 'flex';
+
+  if (toast._timeout) clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => {
+    toast.style.display = 'none';
+  }, duration);
+}
+
 function getSeverityTitle(type) {
   switch (type) {
     case 'DUPLICATE_EXAM': return 'Errore: Insegnamento Duplicato';
@@ -65,3 +90,4 @@ function escapeHTML(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
+

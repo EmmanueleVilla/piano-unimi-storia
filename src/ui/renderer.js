@@ -1,7 +1,7 @@
 import { store } from '../state/store.js';
 import { validatePlan } from '../domain/validator.js';
 import { renderTableComponent } from './table-component.js';
-import { renderErrorDrawer } from './notification.js';
+import { renderErrorDrawer, showToastNotification } from './notification.js';
 import { renderSummaryBanner } from './summary-component.js';
 
 export function initUI() {
@@ -32,6 +32,30 @@ export function initUI() {
       }
     }
   });
+
+  // Attach Share Button Handler
+  const shareBtn = document.getElementById('btn-share-plan');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      try {
+        const currentUrl = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(currentUrl);
+        } else {
+          const input = document.createElement('input');
+          input.value = currentUrl;
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          document.body.removeChild(input);
+        }
+        showToastNotification('Link del piano copiato negli appunti!');
+      } catch (err) {
+        console.error('Errore durante la copia del link:', err);
+        showToastNotification('Impossibile copiare il link negli appunti.');
+      }
+    });
+  }
 
   // Attach Reset Modal Handlers
   const resetBtn = document.getElementById('btn-reset-plan');
